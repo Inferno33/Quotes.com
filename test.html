@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Quote Generator</title>
+	<link rel="shortcut icon" href="./thought.png" type="image/x-icon">
+</head>
+<body>
+	<div class="container">
+		<h1>
+			<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
+				xmlns="http://www.w3.org/2000/svg" class="left">
+				<path
+					d="M464 256h-80v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8c-88.4 0-160 71.6-160 160v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zm-288 0H96v-64c0-35.3 28.7-64 64-64h8c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24h-8C71.6 32 0 103.6 0 192v240c0 26.5 21.5 48 48 48h128c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48z">
+				</path></svg>
+				<span class="quote" id="quote"></span>
+				<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"
+					xmlns="http://www.w3.org/2000/svg" class="right">
+					<path
+						d="M464 32H336c-26.5 0-48 21.5-48 48v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48zm-288 0H48C21.5 32 0 53.5 0 80v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48z">
+					</path>
+				</svg>
+		</h1>
+		<p class="author" id="author"></p>
+		<hr>
+		<div class="buttons">
+			<button class="next" onClick="getNewQuote()">Next Quote</button>
+		</div>
+	</div>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;1,300&display=swap');
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Rubik', sans-serif;
+		}
+
+		body {
+			min-width: 100vh;
+			transition: 0.5s;
+			transition-timing-function: ease-in;
+			background: linear-gradient(-45deg, #b74096, #da4772);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 30px;
+			box-shadow: 0 14px 10px rgba(0, 0, 0, 0.3);
+			border-radius: 25px;
+			width: 600px;
+			background: #fff;
+			margin: 10px;
+			text-align: center;
+		}
+
+		.left, .right {
+			font-size: 25px;
+			color: #b74096;
+		}
+
+		.quote {
+			font-size: 30px;
+			font-weight: 700;
+		}
+
+		.author {
+			margin: 25px 0 10px 0;
+			font-size: 20px;
+			font-weight: 700;
+			color: #b74096;
+		}
+
+		hr {
+			margin: 10px 0;
+			width: 100%;
+			border: 1px solid black;
+			background-color: black;
+		}
+
+		.buttons {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-top: 9px;
+		}
+
+		.next {
+			font-size: 18px;
+			border-radius: 25px;
+			color: #b74096;
+			cursor: pointer;
+			padding: 10px 20px;
+			margin-top: 5px;
+			background: none;
+			border: 2px solid #b74096;
+			transition: all .5s ease-in-out;
+		}
+
+		.next:hover {
+			color: azure;
+			background: #b74096;
+		}
+	</style>
+	<script>
+		const text = document.getElementById("quote");
+		const author = document.getElementById("author");
+
+		const getNewQuote = async () => {
+			const url = "https://type.fit/api/quotes";
+
+			const response = await fetch(url);
+			const allQuotes = await response.json()
+
+			const index = Math.floor(Math.random() * allQuotes.length);
+			const quote = allQuotes[index].text;
+			const auth = allQuotes[index].author;
+
+			if (auth === null) {
+				author = "Anonymous"
+			}
+			text.innerHTML = quote;
+			author.innerHTML = "- " + auth;
+		}
+
+		function Warn() {
+			console.warn("Please Do Not Copy Code.... It Might result in attacking your computer with virus")
+		}
+
+		getNewQuote()
+		Warn()
+	</script>
+</body>
+</html>
